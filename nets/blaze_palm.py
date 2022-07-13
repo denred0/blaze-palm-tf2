@@ -102,7 +102,8 @@ def build_blaze_palm_model(to_64=False):
         reshape_reg_64 = tf.keras.layers.Reshape([-1, 18])(reg_64)
         loc = tf.keras.layers.Concatenate(axis=1)([reshape_reg_8, reshape_reg_16, reshape_reg_32, reshape_reg_64])
 
-    x_out = tf.concat([conf, loc], axis=-1)
+    x_out = tf.keras.layers.Concatenate(axis=-1)([conf, loc])
+    # x_out = tf.concat([conf, loc], axis=-1)
     model = tf.keras.Model(inputs=x_in, outputs=x_out)
     return model
 
