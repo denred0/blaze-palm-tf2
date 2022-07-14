@@ -68,7 +68,7 @@ def build_blaze_palm_model(to_64=False):
     reshape_cls_8 = tf.keras.layers.Reshape([1, -1, 1])(cls_8)
     reshape_cls_16 = tf.keras.layers.Reshape([1, -1, 1])(cls_16)
     reshape_cls_32 = tf.keras.layers.Reshape([1, -1, 1])(cls_32)
-    conf = tf.keras.layers.Concatenate(axis=2)([reshape_cls_8, reshape_cls_16, reshape_cls_32])
+    conf = tf.keras.layers.Concatenate(axis=-1)([reshape_cls_8, reshape_cls_16, reshape_cls_32])
 
     reg_8 = tf.keras.layers.Conv2D(filters=36, kernel_size=(1, 1), strides=(1, 1), padding='same')(upsample_32)
     reg_16 = tf.keras.layers.Conv2D(filters=36, kernel_size=(1, 1), strides=(1, 1), padding='same')(upsample_16)
@@ -79,7 +79,7 @@ def build_blaze_palm_model(to_64=False):
     reshape_reg_8 = tf.keras.layers.Reshape([1, -1, 18])(reg_8)
     reshape_reg_16 = tf.keras.layers.Reshape([1, -1, 18])(reg_16)
     reshape_reg_32 = tf.keras.layers.Reshape([1, -1, 18])(reg_32)
-    loc = tf.keras.layers.Concatenate(axis=2)([reshape_reg_8, reshape_reg_16, reshape_reg_32])
+    loc = tf.keras.layers.Concatenate(axis=-1)([reshape_reg_8, reshape_reg_16, reshape_reg_32])
 
     if to_64:
         upsample_64 = tf.keras.layers.Conv2DTranspose(filters=64, kernel_size=(2, 2), strides=2)(upsample_32)
